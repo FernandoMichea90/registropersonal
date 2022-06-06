@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Fernando Michea Marquez;qjq;
+          Fernando Javier Michea Marquez 
         </a>
       </header>
     </div>
