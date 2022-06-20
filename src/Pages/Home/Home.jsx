@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import { Button } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -21,6 +22,10 @@ import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
 import Deposits from './Deposits.jsx';
 import Orders from './Orders';
+import { red,purple } from '@mui/material/colors';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+
 
 function Copyright(props) {
   return (
@@ -81,16 +86,33 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const mdTheme = createTheme();
+const mdTheme = createTheme({
+  palette: {
+    primary: {
+      // Purple and green play nicely together.
+      main: purple[500],
+    },
+    secondary: {
+      // This is green.A700 as hex.
+      main: '#11cb5f',
+    },
+  },
+});
 
-function DashboardContent() {
+function DashboardContent(props) {
   const [open, setOpen] = React.useState(true);
+  const [modo, setModo] = React.useState(true);
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
+  const toggleModo = () => {
+    setModo(!modo);
+  };
+
   return (
-    <ThemeProvider theme={mdTheme}>
+    // <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
@@ -120,6 +142,9 @@ function DashboardContent() {
             >
               Dashboard
             </Typography>
+            <IconButton color="inherit" onClick={()=>props.toggleModo()}>
+               {modo ? <Brightness7Icon  />: <Brightness4Icon/>} 
+            </IconButton>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
@@ -194,15 +219,22 @@ function DashboardContent() {
                   <Orders />
                 </Paper>
               </Grid>
+              <Grid item xs={12}>
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                    <Button>Primary</Button>
+                    <Button color="secondary">Secondary</Button>
+                </Paper>
+              </Grid>
             </Grid>
+            
             <Copyright sx={{ pt: 4 }} />
           </Container>
         </Box>
       </Box>
-    </ThemeProvider>
+    // </ThemeProvider>
   );
 }
 
-export default function Dashboard() {
-  return <DashboardContent />;
+export default function Dashboard(props) {
+  return <DashboardContent toggleModo={props.toggleModo} />;
 }
