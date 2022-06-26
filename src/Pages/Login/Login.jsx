@@ -14,7 +14,6 @@ import Typography from '@mui/material/Typography';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import {auth} from '../../Firebase/firebase'
 
-
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -44,7 +43,7 @@ export default function SignInSide() {
   .then((userCredential) => {
     // Signed in
     const user = userCredential.user;
-    console.log(user)
+    console.log('usuario'+ user)
   })
   .catch((error) => {
     const errorCode = error.code;

@@ -12,16 +12,15 @@ import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import { Button } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
-import Chart from './Chart';
-import Deposits from './Deposits.jsx';
-import Orders from './Orders';
+import { mainListItems, secondaryListItems } from '../Home/listItems';
+import Chart from '../Home/Chart';
+import Deposits from '../Home/Deposits';
+import Orders from '../Home/Orders';
 import { red, purple } from '@mui/material/colors';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
@@ -32,7 +31,19 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import {auth} from '../../Firebase/firebase';
-import {signOut} from 'firebase/auth'
+import {signOut} from 'firebase/auth';
+import {
+    BrowserRouter,
+    Routes,
+    Route,
+    Outlet,
+  
+  } from "react-router-dom";
+
+import GastosHome from '../../Pages/Gastos/GastosHome';
+import Login from '../../Pages/Login/Login';
+import Home from '../../Pages/Main/Home';
+
 
 
 
@@ -140,7 +151,7 @@ function DashboardContent(props) {
   }
 
   return (
-    // <ThemeProvider theme={mdTheme}>
+     
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="absolute" open={open}>
@@ -251,54 +262,24 @@ function DashboardContent(props) {
         <Toolbar />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: 240,
-                }}
-              >
-                <Chart />
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: 240,
-                }}
-              >
-                <Deposits />
-              </Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                <Orders />
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                <Button>Primary</Button>
-                <Button color="secondary">Secondary</Button>
-              </Paper>
-            </Grid>
+
+          <ThemeProvider theme={props.theme}>
+              <Outlet></Outlet>     
+          </ThemeProvider>    
+                 
+              
+         
+            
           </Grid>
 
           <Copyright sx={{ pt: 4 }} />
         </Container>
       </Box>
     </Box>
-    // </ThemeProvider>
+    
   );
 }
 
 export default function Dashboard(props) {
-  return <DashboardContent toggleModo={props.toggleModo} />;
+  return <DashboardContent theme={props.theme} toggleModo={props.toggleModo} />;
 }
