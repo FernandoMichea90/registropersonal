@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './App.css';
 import {
   BrowserRouter,
@@ -40,10 +40,14 @@ function App(props) {
   );
 
   const toggleModo = () => {
+    if(mode==='light'){localStorage.setItem('theme','dark')}else{ localStorage.setItem('theme','light')}
     setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
   };
 
-
+  useEffect(()=>{
+   const theme=localStorage.getItem('theme')
+   setMode(theme)
+  },[mode])
 
   return (
     <ThemeProvider theme={theme}>
