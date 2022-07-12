@@ -40,7 +40,7 @@ const Home = () => {
                   height: 240,
                 }}
               >
-                <Chart />
+                
               </Paper>
             </Grid>
             {/* Recent Deposits */}

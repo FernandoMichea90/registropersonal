@@ -15,6 +15,7 @@ import { UsuarioContext, UsuarioProvider } from './Provider/UsuarioContext';
 import Progressbar from './Pages/Home/Progressbar';
 import GastosHome from './Pages/Gastos/GastosHome';
 import Index from './Pages/Main/Index'
+import FitnessHome from './Pages/Fitness/FitnessHome';
 
 function App(props) {
 
@@ -84,9 +85,9 @@ function App(props) {
             }else{
                return (
                 <Routes>     
-                    <Route path="/" element={ <Index theme={theme} toggleModo={toggleModo}></Index>}>
-                         
-                          <Route path="/gastos" element={<GastosHome />}/>
+                    <Route path="/" element={<Index theme={theme} toggleModo={toggleModo}></Index>}>
+                          <Route path="fitness" element={<FitnessHome />}/>                             
+                          <Route path="gastos" element={<GastosHome />}/>
                           <Route index element={<Home/>} />
                     </Route>
                  </Routes>
