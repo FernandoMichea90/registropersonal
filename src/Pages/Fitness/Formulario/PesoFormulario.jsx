@@ -32,21 +32,30 @@ const PesoFormulario = () => {
         }
       }
       console.log(db)
-      consulta()
+      consulta(pesoQuery)
         
 
     },
   });
 
 
-   const consulta =async()=>{ 
+   const consulta =async(pesoQuery)=>{ 
       try {
-        const docRef = await addDoc(collection(db, "users","correo","auto"), {
-          first: "Ada",
-          last: "Lovelace",
-          born: 1815
-        });
-        console.log("Document written with ID: ", docRef.id);
+
+        var dateObj = new Date();
+        var month = dateObj.getUTCMonth() + 1; //months from 1-12
+        var day = dateObj.getUTCDate();
+        var year = dateObj.getUTCFullYear();
+
+        var newdate = year + "/" + month + "/" + day;
+        console.log(newdate)
+        // crear referencia 
+        // const dbRef=addDoc(collection(db, "users",pesoQuery.usuario.email,year.toString(),month.toString(),day.toString()),pesoQuery);
+        const dbRef=setDoc(doc(db, "users",pesoQuery.usuario.email,year.toString(),month.toString(),day.toString(),'id-example'),pesoQuery);
+
+        //const docRef=await addDoc(collection(db, "users",pesoQuery.usuario.email,year.toString(),month.toString(),day.toString()),pesoQuery);
+        //await setDoc(dbRef, pesoQuery);
+         console.log("Document written with ID: ", dbRef.id);
       } catch (e) {
         console.error("Error adding document: ", e);
       }
