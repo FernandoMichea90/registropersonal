@@ -5,7 +5,7 @@ COPY ./package*.json ./
 
 WORKDIR "/usr/src"
 
-RUN npm install --force
+RUN npm install 
 
 COPY  [".","/usr/src/"]
 

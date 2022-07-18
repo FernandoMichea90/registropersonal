@@ -47,7 +47,13 @@ function App(props) {
 
   useEffect(()=>{
    const theme=localStorage.getItem('theme')
-   setMode(theme)
+   console.log('este es el tema ');
+   if(theme==null){
+    localStorage.setItem('theme','light')
+    setMode('light')
+   }else{
+   setMode(theme);
+   }
   },[mode])
 
   return (
