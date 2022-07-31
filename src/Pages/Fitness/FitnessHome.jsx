@@ -78,7 +78,7 @@ const [open, setOpen] = React.useState(false);
     aria-describedby="child-modal-description"
   >
     <Box sx={{ ...style}}>
-      <PesoFormulario></PesoFormulario>
+      <PesoFormulario handleClose={handleClose}></PesoFormulario>
       <Button onClick={handleClose}>Close Child Modal</Button>
     </Box>
   </Modal>

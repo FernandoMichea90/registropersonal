@@ -13,8 +13,8 @@ const validationSchema = yup.object({
     .required('El peso es requerido '),
 });
 
-const PesoFormulario = () => {
-  const test =useContext(UsuarioContext)
+const PesoFormulario = (props) => {
+  const usuario =useContext(UsuarioContext)
   const formik = useFormik({    
     initialValues: {
       peso: '100',
@@ -26,14 +26,15 @@ const PesoFormulario = () => {
       var pesoQuery={
         peso:values.peso,
         fecha: new Date(),
+
         usuario:{
-            uid:test.uid,
-            email:test.email
+            uid:usuario.uid,
+            email:usuario.email
         }
       }
       console.log(db)
       consulta(pesoQuery)
-        
+      props.handleClose();
 
     },
   });
@@ -47,11 +48,15 @@ const PesoFormulario = () => {
         var day = dateObj.getUTCDate();
         var year = dateObj.getUTCFullYear();
 
-        var newdate = year + "/" + month + "/" + day;
+        var newdate = day + "/" + month + "/" + year;
+        pesoQuery.fechaString=newdate;
         console.log(newdate)
         // crear referencia 
         // const dbRef=addDoc(collection(db, "users",pesoQuery.usuario.email,year.toString(),month.toString(),day.toString()),pesoQuery);
-        const dbRef=setDoc(doc(db, "users",pesoQuery.usuario.email,year.toString(),month.toString(),day.toString(),'id-example'),pesoQuery);
+        // const dbRef=addDoc(doc(db, "Users",pesoQuery.usuario.email,'Peso'),pesoQuery);
+        // const dbRef=doc(collection (db, "Users",pesoQuery.usuario.emailUsers,pesoQuery.usuario.email,'Peso'));
+        const dbRef=await addDoc(collection(db, "Users",pesoQuery.usuario.email,'Peso'),pesoQuery);
+
 
         //const docRef=await addDoc(collection(db, "users",pesoQuery.usuario.email,year.toString(),month.toString(),day.toString()),pesoQuery);
         //await setDoc(dbRef, pesoQuery);
