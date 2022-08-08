@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { Button,TextField } from '@mui/material';
 import { UsuarioContext } from '../../../Provider/UsuarioContext';
 import firebaseConfig from '../../../Firebase/config';
-import {doc,setDoc,addDoc,collection} from 'firebase/firestore'
+import {doc,setDoc,addDoc,collection,query,where,getDocs} from 'firebase/firestore'
 import {db} from '../../../Firebase/firebase'
 const validationSchema = yup.object({
   peso: yup
@@ -17,7 +17,7 @@ const PesoFormulario = (props) => {
   const usuario =useContext(UsuarioContext)
   const formik = useFormik({    
     initialValues: {
-      peso: '100',
+      peso: props.peso,
     },
     validationSchema: validationSchema,
     onSubmit:  (values) => {
@@ -32,6 +32,8 @@ const PesoFormulario = (props) => {
             email:usuario.email
         }
       }
+      props.setpeso(pesoQuery.peso);
+      props.setexisteRegistro(true);
       console.log(db)
       consulta(pesoQuery)
       props.handleClose();
@@ -51,15 +53,26 @@ const PesoFormulario = (props) => {
         var newdate = day + "/" + month + "/" + year;
         pesoQuery.fechaString=newdate;
         console.log(newdate)
-        // crear referencia 
-        // const dbRef=addDoc(collection(db, "users",pesoQuery.usuario.email,year.toString(),month.toString(),day.toString()),pesoQuery);
-        // const dbRef=addDoc(doc(db, "Users",pesoQuery.usuario.email,'Peso'),pesoQuery);
-        // const dbRef=doc(collection (db, "Users",pesoQuery.usuario.emailUsers,pesoQuery.usuario.email,'Peso'));
-        const dbRef=await addDoc(collection(db, "Users",pesoQuery.usuario.email,'Peso'),pesoQuery);
+        // ver si el  registro ya existe 
+        var  registroExiste =false;
+        const q =query (collection(db,"Users",pesoQuery.usuario.email,'Peso'),where('fechaString','==',newdate));
+        const querySnapshot = await getDocs(q);
+        var  dbRef='';
 
+        querySnapshot.forEach(async(d) => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log('se esta editando ')
+          console.log(d.id, " => ", d.data());
+          registroExiste=true;
+          dbRef=await setDoc(doc(db,"Users",pesoQuery.usuario.email,'Peso',d.id),pesoQuery);
+        });
+        console.log('termina for each');
+        //respuesta de lo que si hizo 
+        if(!registroExiste){
+          console.log('se esta guardando '+registroExiste);
+          dbRef=await addDoc(collection(db, "Users",pesoQuery.usuario.email,'Peso'),pesoQuery);
+        }
 
-        //const docRef=await addDoc(collection(db, "users",pesoQuery.usuario.email,year.toString(),month.toString(),day.toString()),pesoQuery);
-        //await setDoc(dbRef, pesoQuery);
          console.log("Document written with ID: ", dbRef.id);
       } catch (e) {
         console.error("Error adding document: ", e);
