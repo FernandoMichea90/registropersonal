@@ -175,11 +175,11 @@ function DashboardContent(props) {
           <Typography
             component="h1"
             variant="h6"
-            color="inherit"
+            color="text.secondary"
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            Dashboard
+            Dashboard 
           </Typography>
           <IconButton color="inherit" onClick={() => props.toggleModo()}>
             {modo ? <Brightness7Icon /> : <Brightness4Icon />}

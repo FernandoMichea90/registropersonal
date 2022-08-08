@@ -109,7 +109,8 @@ const FitnessHome = () => {
                 <span>
                   {existeRegistro 
                   ? peso +' Kg':
-                    <Typography variant="overline" color="secondary"> 
+                    <Typography variant="overline" color="text.secondary"
+                    > 
                      No existe registro
                    </Typography>
                   }

@@ -9,7 +9,7 @@ import {
 import Login from './Pages/Login/Login';
 import Home from './Pages/Main/Home';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { red, purple } from '@mui/material/colors';
+import { red, purple,amber,grey,deepOrange }  from '@mui/material/colors';
 
 import { UsuarioContext, UsuarioProvider } from './Provider/UsuarioContext';
 import Progressbar from './Pages/Home/Progressbar';
@@ -21,22 +21,39 @@ function App(props) {
 
 
   const [mode, setMode] = React.useState('light');
-
+ 
+const getDesignTokens = (mode) => ({
+  palette: {
+    mode,
+    primary: {
+      ...amber,
+      ...(mode === 'dark' && {
+      //  main: amber[300],
+      }),
+    },
+    ...(mode === 'dark' && {
+      background: {
+        // default: deepOrange[900],
+        // paper: deepOrange[900],
+      },
+    }),
+    text: {
+      ...(mode === 'light'
+        ? {
+            primary: grey[900],
+            secondary: grey[800],
+          }
+        : {
+            primary: '#fff',
+            secondary: grey[500],
+          }),
+    },
+  },
+});
+  
   const theme = React.useMemo(
     () =>
-      createTheme({
-        palette: {
-          mode,
-          primary: {
-            // Purple and green play nicely together.
-            main: red[500],
-          },
-          secondary: {
-            // This is green.A700 as hex.
-            main: purple[500],
-          },
-        },
-      }),
+      createTheme(getDesignTokens(mode)),
     [mode],
   );
 
